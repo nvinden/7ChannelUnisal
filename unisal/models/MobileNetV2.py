@@ -107,6 +107,8 @@ class MobileNetV2(nn.Module):
         self.last_channel = last_channel
         self.input_channel = input_channel
 
+        #test
+
         block = InvertedResidual
         interverted_residual_setting = [
             # t, c, n, s
