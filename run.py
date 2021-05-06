@@ -7,6 +7,13 @@ import unisal
 
 from unisal import data
 
+import cv2
+import numpy as np
+import torch
+import PIL
+
+from torchvision import transforms
+
 
 def train(eval_sources=('SALICON'),
           **kwargs):
@@ -91,4 +98,25 @@ def predict_examples(train_id=None):
 
 
 if __name__ == "__main__":
-    fire.Fire()
+    #fire.Fire()
+    path = "/content/drive/MyDrive/7Channel/Salicon/images/train"
+    i = 1
+    for (_, _, filenames) in os.walk(path):
+        for curr_file in filenames:
+            full_path = path + "/" + curr_file
+            
+            im = PIL.Image.open(full_path)
+            rgb_im = im.convert('RGB')
+
+            new_path = full_path.replace("images", "additional_priors")
+
+            transformations = [
+                transforms.Resize((288, 384), interpolation=PIL.Image.LANCZOS),
+                transforms.ToTensor(),
+                unisal.sevenchanneltrans.SevenChannelTrans(new_path)
+            ]
+
+            processing = transforms.Compose(transformations)
+            tensor = processing(rgb_im)
+            print(i)
+            i += 1

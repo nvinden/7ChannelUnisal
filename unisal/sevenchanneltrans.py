@@ -14,6 +14,7 @@ import numpy as np
 import cv2
 import PIL
 import scipy.io
+import cv2
 
 from . import utils
 
@@ -30,12 +31,21 @@ class SevenChannelTrans(object):
         dark_filepath = file_path[:-16] + "DARK_" + file_path[-16:]
 
         if os.path.isfile(rgb_filepath):
-            inp = np.load(self.file_path)
-            image = torch.cat((image, inp), 0)
+            print("Found RGB")
         else:
             mean_layers = self.make_rgb_mean_layer(image)
-            dark_channel = self.make_dark_channel(image)
-            image = torch.cat((image, mean_layers, dark_channel), 0)
+            save_image(mean_layers, rgb_filepath)
+            image = torch.cat((image, mean_layers), 0)
+            print("Saved RGB: " + rgb_filepath)
+
+        if os.path.isfile(dark_filepath):
+            print("Found BLACK")
+        else:
+            dark_layers = self.make_dark_channel(image)
+            save_image(dark_layers, dark_filepath)
+            image = torch.cat((image, dark_layers), 0)
+            print("Saved BLACK: " + dark_filepath)
+        
         return image
 
     def make_rgb_mean_layer(self, img):

@@ -124,8 +124,6 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
 
     def prepare_samples(self):
         samples = []
-        print(self.dir)
-        print(self.phase)
         for file in (self.dir / 'images' / self.phase).glob(self.file_stem + '*.jpg'):
             if file.stem[-12:].isnumeric():
                 samples.append(int(file.stem[-12:]))
