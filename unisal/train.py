@@ -89,7 +89,7 @@ class Trainer(utils.KwConfigClass):
     """
 
     phases = ('train', 'valid')
-    all_data_sources = ('DHF1K', 'Hollywood', 'UCFSports', 'SALICON')
+    all_data_sources = ('SALICON', )
 
     def __init__(self,
                  num_epochs=16,
@@ -103,7 +103,7 @@ class Trainer(utils.KwConfigClass):
                  grad_clip=2.,
                  loss_metrics=('kld', 'nss', 'cc'),
                  loss_weights=(1, -0.1, -0.1),
-                 data_sources=('DHF1K', 'Hollywood', 'UCFSports', 'SALICON'),
+                 data_sources=('SALICON', ),
                  batch_size=4,
                  salicon_batch_size=32,
                  hollywood_batch_size=4,
@@ -1002,8 +1002,11 @@ class Trainer(utils.KwConfigClass):
                 dataset_cls = data.get_dataset()
                 config = self.data_cfg
             else:
+                print(f"Source: {source}")
                 dataset_cls_name = f"{source}Dataset"
+                print(dataset_cls_name)
                 dataset_cls = getattr(data, dataset_cls_name)
+                print(dataset_cls)
                 if source in ('MIT300',):
                     config = {}
                 elif source in ('MIT1003',):

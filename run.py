@@ -8,7 +8,7 @@ import unisal
 from unisal import data
 
 
-def train(eval_sources=('DHF1K', 'SALICON', 'UCFSports', 'Hollywood'),
+def train(eval_sources=('SALICON'),
           **kwargs):
     """Run training and evaluation."""
     trainer = unisal.train.Trainer(**kwargs)
@@ -91,6 +91,4 @@ def predict_examples(train_id=None):
 
 
 if __name__ == "__main__":
-    #fire.Fire()
-    test = data.SALICONDataset()
-    test.get_data(307)
+    fire.Fire()

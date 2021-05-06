@@ -60,8 +60,8 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
         self.out_size = out_size
         self.target_size = target_size
         self.preproc_cfg = {
-            'rgb_mean': (0.485, 0.456, 0.406),
-            'rgb_std': (0.229, 0.224, 0.225),
+            'rgb_mean': (0.485, 0.456, 0.406, 0.095, 0.098, 0.100, 0.180),
+            'rgb_std': (0.229, 0.224, 0.225, 0.131, 0.143, 0.151, 0.180),
         }
         if preproc_cfg is not None:
             self.preproc_cfg.update(preproc_cfg)
@@ -89,7 +89,6 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
     def get_img(self, img_nr):
         img_file = self.dir / 'images' / self.phase_str/(
                 self.file_stem + self.file_nr.format(img_nr) + '.jpg')
-        print(img_file)
         img = cv2.imread(str(img_file))
         assert(img is not None)
         return np.ascontiguousarray(img[:, :, ::-1])
@@ -125,14 +124,17 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
 
     def prepare_samples(self):
         samples = []
-        for file in (self.dir / 'images').glob(self.file_stem + '*.jpg'):
-            samples.append(int(file.stem[-12:]))
+        print(self.dir)
+        print(self.phase)
+        for file in (self.dir / 'images' / self.phase).glob(self.file_stem + '*.jpg'):
+            if file.stem[-12:].isnumeric():
+                samples.append(int(file.stem[-12:]))
         return sorted(samples)
 
     def __len__(self):
         return len(self.samples)
 
-    def preprocess(self, img, data='img'):
+    def preprocess(self, img, file_path, data='img'):
         transformations = [
             transforms.ToPILImage(),
         ]
@@ -142,7 +144,7 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
         transformations.append(transforms.ToTensor())
         if data == 'img' and 'rgb_mean' in self.preproc_cfg:
             transformations.append(
-                sevenchanneltrans.SevenChannelTrans())
+                sevenchanneltrans.SevenChannelTrans(file_path))
             transformations.append(
                 transforms.Normalize(
                     self.preproc_cfg['rgb_mean'], self.preproc_cfg['rgb_std']))
@@ -157,15 +159,16 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
         return tensor
 
     def get_data(self, img_nr):
+        npy_file_path = self.dir / 'additional_priors' / self.phase_str/ (self.file_stem + self.file_nr.format(img_nr) + '.jpg')
         img = self.get_img(img_nr)
-        img = self.preprocess(img, data='img')
+        img = self.preprocess(img, npy_file_path, data='img')
         if self.phase == 'test':
             return [1], img, self.target_size
 
         sal = self.get_map(img_nr)
-        sal = self.preprocess(sal, data='sal')
+        sal = self.preprocess(sal, npy_file_path, data='sal')
         fix = self.get_fixation_map(img_nr)
-        fix = self.preprocess(fix, data='fix')
+        fix = self.preprocess(fix, npy_file_path, data='fix')
 
         return [1], img, sal, fix, self.target_size
 
