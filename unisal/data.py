@@ -16,6 +16,7 @@ import PIL
 import scipy.io
 
 from . import utils
+from . import sevenchanneltrans
 
 default_data_dir = Path(__file__).resolve().parent.parent / "data"
 
@@ -47,10 +48,8 @@ def get_dataloader(src='DHF1K'):
 
 
 class SALICONDataset(Dataset, utils.KwConfigClass):
-
     source = 'SALICON'
     dynamic = False
-
     def __init__(self, phase='train', subset=None, verbose=1,
                  out_size=(288, 384), target_size=(480, 640),
                  preproc_cfg=None):
@@ -88,7 +87,7 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
         return map
 
     def get_img(self, img_nr):
-        img_file = self.dir / 'images' / (
+        img_file = self.dir / 'images' / self.phase_str/(
                 self.file_stem + self.file_nr.format(img_nr) + '.jpg')
         print(img_file)
         img = cv2.imread(str(img_file))
@@ -142,6 +141,8 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
                 self.out_size, interpolation=PIL.Image.LANCZOS))
         transformations.append(transforms.ToTensor())
         if data == 'img' and 'rgb_mean' in self.preproc_cfg:
+            transformations.append(
+                sevenchanneltrans.SevenChannelTrans())
             transformations.append(
                 transforms.Normalize(
                     self.preproc_cfg['rgb_mean'], self.preproc_cfg['rgb_std']))

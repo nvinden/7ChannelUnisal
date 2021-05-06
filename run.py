@@ -93,4 +93,4 @@ def predict_examples(train_id=None):
 if __name__ == "__main__":
     #fire.Fire()
     test = data.SALICONDataset()
-    print(test.get_img(9))
+    test.get_data(307)
