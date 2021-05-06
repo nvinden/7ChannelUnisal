@@ -5,6 +5,8 @@ import fire
 
 import unisal
 
+from unisal import data
+
 
 def train(eval_sources=('DHF1K', 'SALICON', 'UCFSports', 'Hollywood'),
           **kwargs):
@@ -89,4 +91,6 @@ def predict_examples(train_id=None):
 
 
 if __name__ == "__main__":
-    fire.Fire()
+    #fire.Fire()
+    test = data.SALICONDataset()
+    print(test.get_img(9))

@@ -23,7 +23,7 @@ default_data_dir = Path(__file__).resolve().parent.parent / "data"
 if "DHF1K_DATA_DIR" not in os.environ:
     os.environ["DHF1K_DATA_DIR"] = str(default_data_dir / "DHF1K")
 if "SALICON_DATA_DIR" not in os.environ:
-    os.environ["SALICON_DATA_DIR"] = str(default_data_dir / "SALICON")
+    os.environ["SALICON_DATA_DIR"] = "/content/drive/MyDrive/7Channel/Salicon"
 if "HOLLYWOOD_DATA_DIR" not in os.environ:
     os.environ["HOLLYWOOD_DATA_DIR"] = str(
         default_data_dir / "Hollywood2_actions")
@@ -90,6 +90,7 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
     def get_img(self, img_nr):
         img_file = self.dir / 'images' / (
                 self.file_stem + self.file_nr.format(img_nr) + '.jpg')
+        print(img_file)
         img = cv2.imread(str(img_file))
         assert(img is not None)
         return np.ascontiguousarray(img[:, :, ::-1])
