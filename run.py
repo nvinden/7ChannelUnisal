@@ -100,9 +100,11 @@ def predict_examples(train_id=None):
 if __name__ == "__main__":
     #fire.Fire()
     path = "/content/drive/MyDrive/7Channel/Salicon/images/train"
-    i = 1
+    start = 8333
     for (_, _, filenames) in os.walk(path):
-        for curr_file in filenames:
+        for curr_file in enumerate(filenames):
+            if i < start:
+                continue
             full_path = path + "/" + curr_file
             
             im = PIL.Image.open(full_path)
@@ -119,4 +121,3 @@ if __name__ == "__main__":
             processing = transforms.Compose(transformations)
             tensor = processing(rgb_im)
             print(i)
-            i += 1
