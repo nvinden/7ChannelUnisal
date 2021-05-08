@@ -98,26 +98,4 @@ def predict_examples(train_id=None):
 
 
 if __name__ == "__main__":
-    #fire.Fire()
-    path = "/content/drive/MyDrive/7Channel/Salicon/images/train"
-    start = 8333
-    for (_, _, filenames) in os.walk(path):
-        for curr_file in enumerate(filenames):
-            if i < start:
-                continue
-            full_path = path + "/" + curr_file
-            
-            im = PIL.Image.open(full_path)
-            rgb_im = im.convert('RGB')
-
-            new_path = full_path.replace("images", "additional_priors")
-
-            transformations = [
-                transforms.Resize((288, 384), interpolation=PIL.Image.LANCZOS),
-                transforms.ToTensor(),
-                unisal.sevenchanneltrans.SevenChannelTrans(new_path)
-            ]
-
-            processing = transforms.Compose(transformations)
-            tensor = processing(rgb_im)
-            print(i)
+    fire.Fire()

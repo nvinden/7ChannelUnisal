@@ -31,20 +31,25 @@ class SevenChannelTrans(object):
         dark_filepath = file_path[:-16] + "DARK_" + file_path[-16:]
 
         if os.path.isfile(rgb_filepath):
-            print("Found RGB")
+            rgb_image = Image.open(rgb_filepath)
+            data = np.asarray(rgb_image)
+            torch.cat((image, torch.from_numpy(rgb_image)), 0)
         else:
             mean_layers = self.make_rgb_mean_layer(image)
             save_image(mean_layers, rgb_filepath)
             image = torch.cat((image, mean_layers), 0)
-            print("Saved RGB: " + rgb_filepath)
 
         if os.path.isfile(dark_filepath):
-            print("Found BLACK")
+            dark_image = Image.open(dark_filepath)
+            data = np.asarray(dark_image)
+            torch.cat((image, torch.from_numpy(dark_image)), 0)
         else:
             dark_layers = self.make_dark_channel(image)
             save_image(dark_layers, dark_filepath)
             image = torch.cat((image, dark_layers), 0)
-            print("Saved BLACK: " + dark_filepath)
+
+        print(image.shape())
+        edasdadwe
         
         return image
 
