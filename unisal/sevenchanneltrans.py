@@ -32,24 +32,21 @@ class SevenChannelTrans(object):
 
         if os.path.isfile(rgb_filepath):
             rgb_image = Image.open(rgb_filepath)
-            data = np.asarray(rgb_image)
-            torch.cat((image, torch.from_numpy(rgb_image)), 0)
+            rgb_image = transforms.ToTensor()(np.array(rgb_image))
+            image = torch.cat((image, rgb_image), 0)
         else:
             mean_layers = self.make_rgb_mean_layer(image)
             save_image(mean_layers, rgb_filepath)
             image = torch.cat((image, mean_layers), 0)
 
         if os.path.isfile(dark_filepath):
-            dark_image = Image.open(dark_filepath)
-            data = np.asarray(dark_image)
-            torch.cat((image, torch.from_numpy(dark_image)), 0)
-        else:
+            dark_image = Image.open(dark_filepath).convert('L')
+            dark_image = transforms.ToTensor()(np.array(dark_image))
+            image = torch.cat((image, dark_image), 0)
+        else:   
             dark_layers = self.make_dark_channel(image)
             save_image(dark_layers, dark_filepath)
             image = torch.cat((image, dark_layers), 0)
-
-        print(image.shape())
-        edasdadwe
         
         return image
 
