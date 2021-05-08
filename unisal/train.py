@@ -374,10 +374,12 @@ class Trainer(utils.KwConfigClass):
             # weight decay
             if self.phase == 'train':
                 # Switch the RNN gradients off if this is a image batch
+                '''
                 rnn_grad = x.shape[1] != 1 or not self.model.bypass_rnn
                 for param in chain(self._model.rnn.parameters(),
                                    self._model.post_rnn.parameters()):
                     param.requires_grad = rnn_grad
+                '''
 
                 # Switch the gradients of unused dataset-specific modules off
                 for name, param in self.model.named_parameters():

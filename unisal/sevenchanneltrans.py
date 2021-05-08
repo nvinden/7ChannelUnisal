@@ -24,6 +24,7 @@ class SevenChannelTrans(object):
     def __init__(self, file_path, patch_size=7):
         self.file_path = file_path
         self.patch_size = patch_size
+        self.counter = 0
 
     def __call__(self, image):
         file_path = str(self.file_path)
@@ -48,6 +49,9 @@ class SevenChannelTrans(object):
             save_image(dark_layers, dark_filepath)
             image = torch.cat((image, dark_layers), 0)
         
+        print(f"Iteration: {self.counter}")
+        self.counter += 1
+
         return image
 
     def make_rgb_mean_layer(self, img):
