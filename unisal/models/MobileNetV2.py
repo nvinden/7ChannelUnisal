@@ -123,7 +123,7 @@ class MobileNetV2(nn.Module):
 
         # building first layer
         input_channel = int(self.input_channel * widen_factor)
-        self.features = [conv_bn(3, input_channel, 2)]
+        self.features = [conv_bn(7, input_channel, 2)]
         # building inverted residual blocks
         for t, c, n, s in interverted_residual_setting:
             output_channel = int(c * widen_factor)
@@ -162,6 +162,7 @@ class MobileNetV2(nn.Module):
 
     def forward(self, x):
         # x = self.features(x)
+        print(f"MOBILE NET FORWARDS: {x.shape}")
         feat_2x, feat_4x, feat_8x = None, None, None
         for idx, module in enumerate(self.features._modules.values()):
             x = module(x)
