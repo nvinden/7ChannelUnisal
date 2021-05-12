@@ -24,6 +24,7 @@ class SevenChannelTrans(object):
     def __init__(self, file_path, patch_size=7):
         self.file_path = file_path
         self.patch_size = patch_size
+        self.counter = 0
 
     def __call__(self, image):
         file_path = str(self.file_path)
@@ -31,21 +32,26 @@ class SevenChannelTrans(object):
         dark_filepath = file_path[:-16] + "DARK_" + file_path[-16:]
 
         if os.path.isfile(rgb_filepath):
-            print("Found RGB")
+            rgb_image = Image.open(rgb_filepath)
+            rgb_image = transforms.ToTensor()(np.array(rgb_image))
+            image = torch.cat((image, rgb_image), 0)
         else:
             mean_layers = self.make_rgb_mean_layer(image)
             save_image(mean_layers, rgb_filepath)
             image = torch.cat((image, mean_layers), 0)
-            print("Saved RGB: " + rgb_filepath)
 
         if os.path.isfile(dark_filepath):
-            print("Found BLACK")
-        else:
+            dark_image = Image.open(dark_filepath).convert('L')
+            dark_image = transforms.ToTensor()(np.array(dark_image))
+            image = torch.cat((image, dark_image), 0)
+        else:   
             dark_layers = self.make_dark_channel(image)
             save_image(dark_layers, dark_filepath)
             image = torch.cat((image, dark_layers), 0)
-            print("Saved BLACK: " + dark_filepath)
         
+        print(f"Iteration: {self.counter}")
+        self.counter += 1
+
         return image
 
     def make_rgb_mean_layer(self, img):
