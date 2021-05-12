@@ -49,7 +49,6 @@ class SevenChannelTrans(object):
             save_image(dark_layers, dark_filepath)
             image = torch.cat((image, dark_layers), 0)
         
-        print(f"Iteration: {self.counter}")
         self.counter += 1
 
         return image
