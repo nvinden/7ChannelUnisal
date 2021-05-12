@@ -167,6 +167,7 @@ class MobileNetV2(nn.Module):
 
     def forward(self, x):
         # x = self.features(x)
+        print(f"MOBILE NET FORWARDS: {x.shape}")
         feat_2x, feat_4x, feat_8x = None, None, None
         for idx, module in enumerate(self.features._modules.values()):
             x = module(x)
