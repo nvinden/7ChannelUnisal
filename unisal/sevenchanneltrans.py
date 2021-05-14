@@ -36,10 +36,10 @@ class SevenChannelTrans(object):
         self.patch_size = patch_size
         self.counter = 0
 
-        if any(d['dir'] == 'depth_kitti' for d in CHANNELS):
-            self.nyu_helper = InferenceHelper(dataset='nyu', device="cpu")
         if any(d['dir'] == 'depth_nyu' for d in CHANNELS):
-            self.kitti_helper = InferenceHelper(dataset='kitti', device="cpu")
+            self.nyu_helper = nyu_helper
+        if any(d['dir'] == 'depth_kitti' for d in CHANNELS):
+            self.kitti_helper = kitti_helper
 
 
     def __call__(self, image):
