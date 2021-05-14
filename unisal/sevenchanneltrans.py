@@ -37,9 +37,7 @@ class SevenChannelTrans(object):
                 img = Image.open(channel_path)
 
                 if chan['chan'] == 1:
-                    img = img.convert("L")
                     img = transforms.ToTensor()(np.array(img))
-                    img = img[0,:,:]
                 else:
                     img = transforms.ToTensor()(np.array(img))
                 
