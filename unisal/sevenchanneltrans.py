@@ -28,6 +28,7 @@ class SevenChannelTrans(object):
 
     def __call__(self, image):
         file_path = str(self.file_path)
+        print(f"FILE PATH: {file_path}")
         rgb_filepath = file_path[:-16] + "RGB_" + file_path[-16:]
         dark_filepath = file_path[:-16] + "DARK_" + file_path[-16:]
 
