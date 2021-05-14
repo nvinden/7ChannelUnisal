@@ -43,7 +43,7 @@ class SevenChannelTrans(object):
                 else:
                     img = transforms.ToTensor()(np.array(img))
                 
-                print(f"{chan['dir']}:{image.shape}:{chan['chan']}")
+                print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
                 if len(image.size()) == 2:
                     img = torch.unsqueeze(img, 0)
                 image = torch.cat((image, img), 0)
