@@ -39,19 +39,21 @@ class SevenChannelTrans(object):
             print(channel_path)
             if os.path.isfile(channel_path):
                 img = Image.open(channel_path)
+                if chan['chan'] == 1:
+                    img = img.convert("L")
                 img = transforms.ToTensor()(np.array(img))
                 #if not the same size as image
                 if img.shape[1] != height or img.shape[2] != width:
                     img = transforms.Resize((height, width))(img)
                     save_image(img, channel_path)
-
-                print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
                 image = torch.cat((image, img), 0)
             else:
                 method = getattr(self, chan['func'])
                 new_channel = method(org_image)
                 save_image(new_channel, channel_path)
                 image = torch.cat((image, new_channel), 0)
+
+        
 
         '''
         rgb_filepath = file_path[:-16] + "RGB_" + file_path[-16:]
