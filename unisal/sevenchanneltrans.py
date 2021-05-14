@@ -29,10 +29,19 @@ class SevenChannelTrans(object):
         self.counter = 0
 
     def __call__(self, image):
+        org_image = torch.clone(image)
         file_path = str(self.file_path)
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
-            print(channel_path)
+            if os.path.isfile(channel_path):
+                img = Image.open(channel_path)
+                img = transforms.ToTensor()(np.array(img))
+                image = torch.cat((image, img), 0)
+            else:
+                method = getattr(self, chan['func'])
+                new_channel = method(org_image)
+                save_image(new_channel, channel_path)
+                image = torch.cat((image, new_channel), 0)
 
         '''
         rgb_filepath = file_path[:-16] + "RGB_" + file_path[-16:]

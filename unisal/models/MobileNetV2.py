@@ -4,6 +4,8 @@ from pathlib import Path
 import torch
 import torch.nn as nn
 
+from test_info import CHANNELS, DATASET_PATH
+
 # Source: https://github.com/tonylins/pytorch-mobilenet-v2
 
 
@@ -121,9 +123,13 @@ class MobileNetV2(nn.Module):
             [6, 320, 1, 1],
         ]
 
+        num_input_channels = 3
+        for chan in CHANNELS:
+            num_input_channels += chan['chan']
+
         # building first layer
         input_channel = int(self.input_channel * widen_factor)
-        self.features = [conv_bn(7, input_channel, 2)]
+        self.features = [conv_bn(num_input_channels, input_channel, 2)]
         # building inverted residual blocks
         for t, c, n, s in interverted_residual_setting:
             output_channel = int(c * widen_factor)
