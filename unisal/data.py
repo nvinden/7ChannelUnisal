@@ -157,7 +157,7 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
         return tensor
 
     def get_data(self, img_nr):
-        file_path = self.dir / '<INSERT_HERE>' / self.phase_str/ (self.file_stem + self.file_nr.format(img_nr) + '.<ENDING>')
+        npy_file_path = self.dir / '<INSERT_HERE>' / self.phase_str/ (self.file_stem + self.file_nr.format(img_nr) + '.<ENDING>')
         img = self.get_img(img_nr)
         img = self.preprocess(img, npy_file_path, data='img')
         if self.phase == 'test':
