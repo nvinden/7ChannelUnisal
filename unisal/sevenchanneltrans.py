@@ -92,11 +92,11 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        _, predicted_depth = self.kitti_helper.predict(img)
+        _, predicted_depth = self.kitti_helper.predict(img.unsqueeze(0))
         return predicted_depth
 
     def depth_nyu(self, img):
-        _, predicted_depth = self.nyu_helper.predict(img)
+        _, predicted_depth = self.nyu_helper.predict(img.unsqueeze(0))
         return predicted_depth
 
     
