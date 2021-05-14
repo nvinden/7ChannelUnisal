@@ -40,7 +40,7 @@ class SevenChannelTrans(object):
                 img = Image.open(channel_path)
                 img = transforms.ToTensor()(np.array(img))
                 if img.shape[1] != height or img.shape[2] != width:
-                    img = torchvision.transforms.Resize((height, width))(img)
+                    img = transforms.Resize((height, width))(img)
                     save_image(img, 'test.jpg')
 
                 print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
