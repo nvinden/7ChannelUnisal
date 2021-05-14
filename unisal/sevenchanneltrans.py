@@ -47,7 +47,7 @@ class SevenChannelTrans(object):
         height = image.shape[1]
         width = image.shape[2]
         file_path = str(self.file_path)
-        self.img_path = file_path.replace("<INSERT_HERE>", "images").replace("<ENDING>", ".jpg")
+        self.img_path = file_path.replace("<INSERT_HERE>", "images").replace("<ENDING>", "jpg")
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
             if os.path.isfile(channel_path):
@@ -94,12 +94,16 @@ class SevenChannelTrans(object):
     def depth_kitti(self, img):
         with Image.open(self.img_path) as im:
             _, predicted_depth = self.kitti_helper.predict_pil(im)
-        return predicted_depth
+            out = np.array(predicted_depth)
+            out = torch.from_numpy(out)
+        return out
 
     def depth_nyu(self, img):
         with Image.open(self.img_path) as im:
             _, predicted_depth = self.nyu_helper.predict_pil(im)
-        return predicted_depth
+            out = np.array(predicted_depth)
+            out = torch.from_numpy(out)
+        return out
 
     
 
