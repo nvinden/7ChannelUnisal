@@ -22,11 +22,19 @@ from PIL import Image, ImageOps
 
 from test_info import CHANNELS, DATASET_PATH
 
+from models.AdaBins.infer import InferenceHelper
+
 class SevenChannelTrans(object):
     def __init__(self, file_path, patch_size=7):
         self.file_path = file_path
         self.patch_size = patch_size
         self.counter = 0
+
+        if any(d['dir'] == 'depth_kitti' for d in CHANNELS):
+            self.kitti_helper = InferenceHelper(dataset='kitti')
+        if any(d['dir'] == 'depth_nyu' for d in CHANNELS):
+            self.nyu_helper = InferenceHelper(dataset='nyu')
+
 
     def __call__(self, image):
         org_image = torch.clone(image)
@@ -50,35 +58,10 @@ class SevenChannelTrans(object):
                 print("method")
                 method = getattr(self, chan['func'])
                 new_channel = method(org_image)
+                if new_channel.shape[1] != height or new_channel.shape[2] != width:
+                    new_channel = transforms.Resize((height, width))(new_channel)
                 save_image(new_channel, channel_path)
                 image = torch.cat((image, new_channel), 0)
-
-        
-
-        '''
-        rgb_filepath = file_path[:-16] + "RGB_" + file_path[-16:]
-        dark_filepath = file_path[:-16] + "DARK_" + file_path[-16:]
-
-        if os.path.isfile(rgb_filepath):
-            rgb_image = Image.open(rgb_filepath)
-            rgb_image = transforms.ToTensor()(np.array(rgb_image))
-            image = torch.cat((image, rgb_image), 0)
-        else:
-            mean_layers = self.make_rgb_mean_layer(image)
-            save_image(mean_layers, rgb_filepath)
-            image = torch.cat((image, mean_layers), 0)
-
-        if os.path.isfile(dark_filepath):
-            dark_image = Image.open(dark_filepath).convert('L')
-            dark_image = transforms.ToTensor()(np.array(dark_image))
-            image = torch.cat((image, dark_image), 0)
-        else:   
-            dark_layers = self.make_dark_channel(image)
-            save_image(dark_layers, dark_filepath)
-            image = torch.cat((image, dark_layers), 0)
-        
-        self.counter += 1
-        '''
 
         return image
 
@@ -101,6 +84,18 @@ class SevenChannelTrans(object):
                 patch = image[:, max(0, i - patch_size):min(i+patch_size + 1, height), max(0, j - patch_size):min(j + patch_size + 1, width)]
                 dark[i][j] = torch.min(patch)
         return dark.unsqueeze(0)
+    
+    def depth_kitti(self, img):
+        _, predicted_depth = self.kitti_helper.predict(img)
+        return predicted_depth
+
+    def depth_nyu(self, img):
+        _, predicted_depth = self.nyu_helper.predict(img)
+        return predicted_depth
+
+    
+
+    
         
 
 

@@ -15,7 +15,7 @@ import PIL
 from torchvision import transforms
 
 
-def train(eval_sources=('SALICON'),
+def train(eval_sources=('SALICON', ),
           **kwargs):
     """Run training and evaluation."""
     trainer = unisal.train.Trainer(**kwargs)

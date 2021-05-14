@@ -18,6 +18,8 @@ import scipy.io
 from . import utils
 from . import sevenchanneltrans
 
+from test_info import CHANNELS, DATASET_PATH
+
 default_data_dir = Path(__file__).resolve().parent.parent / "data"
 
 # Set default paths
@@ -60,9 +62,12 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
         self.out_size = out_size
         self.target_size = target_size
         self.preproc_cfg = {
-            'rgb_mean': (0.485, 0.456, 0.406, 0.095, 0.098, 0.100, 0.180),
-            'rgb_std': (0.229, 0.224, 0.225, 0.131, 0.143, 0.151, 0.180),
+            'rgb_mean': [0.485, 0.456, 0.406],
+            'rgb_std': [0.229, 0.224, 0.225],
         }
+        for chan in CHANNELS:
+            self.preproc_cfg['rgb_mean'].append(chan['mean'])
+            self.preproc_cfg['rgb_std'].append(chan['std'])
         if preproc_cfg is not None:
             self.preproc_cfg.update(preproc_cfg)
         self.phase_str = 'val' if phase in ('valid', 'eval') else phase
