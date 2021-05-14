@@ -30,6 +30,7 @@ class SevenChannelTrans(object):
 
     def __call__(self, image):
         org_image = torch.clone(image)
+        print(f"IMAGE SIZE {image.shape}")
         file_path = str(self.file_path)
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
