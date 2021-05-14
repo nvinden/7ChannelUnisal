@@ -36,7 +36,7 @@ class SevenChannelTrans(object):
             if os.path.isfile(channel_path):
                 img = Image.open(channel_path)
                 img = transforms.ToTensor()(np.array(img))
-                print(len(image.size()))
+                print(image.shape)
                 if len(image.size()) == 2:
                     img = torch.unsqueeze(img, 0)
                 image = torch.cat((image, img), 0)
