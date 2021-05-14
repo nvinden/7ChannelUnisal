@@ -41,7 +41,7 @@ class SevenChannelTrans(object):
                 img = transforms.ToTensor()(np.array(img))
                 if img.shape[1] != height or img.shape[2] != width:
                     img = transforms.Resize((height, width))(img)
-                    save_image(img, 'test.jpg')
+                    save_image(img, channel_path)
 
                 print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
                 image = torch.cat((image, img), 0)
