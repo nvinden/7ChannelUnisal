@@ -96,7 +96,7 @@ class SevenChannelTrans(object):
         img = (img.permute(1,2,0).numpy() * 255).astype(np.uint8)
         print(img.shape)
         print(img)
-        im = Image.fromarray(img)
+        im = Image.fromarray(img).convert('L')
         _, predicted_depth = self.kitti_helper.predict_pil(im)
         return predicted_depth
 
@@ -104,7 +104,7 @@ class SevenChannelTrans(object):
         img = (img.permute(1,2,0).numpy() * 255).astype(np.uint8)
         print(img.shape)
         print(img)
-        im = Image.fromarray(img)
+        im = Image.fromarray(img).convert('L')
         im.save("TEST_NYU.png")
         _, predicted_depth = self.nyu_helper.predict_pil(im)
         return predicted_depth
