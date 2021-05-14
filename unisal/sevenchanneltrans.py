@@ -26,9 +26,9 @@ from test_info import CHANNELS, DATASET_PATH
 from unisal.models.AdaBins.infer import InferenceHelper
 
 if any(d['dir'] == 'depth_kitti' for d in CHANNELS):
-    kitti_helper = InferenceHelper(dataset='kitti')
+    kitti_helper = InferenceHelper(dataset='kitti', device="cpu")
 if any(d['dir'] == 'depth_nyu' for d in CHANNELS):
-    nyu_helper = InferenceHelper(dataset='nyu')
+    nyu_helper = InferenceHelper(dataset='nyu', device="cpu")
 
 class SevenChannelTrans(object):
     def __init__(self, file_path, patch_size=7):
@@ -37,9 +37,9 @@ class SevenChannelTrans(object):
         self.counter = 0
 
         if any(d['dir'] == 'depth_kitti' for d in CHANNELS):
-            self.nyu_helper = InferenceHelper(dataset='nyu')
+            self.nyu_helper = InferenceHelper(dataset='nyu', device="cpu")
         if any(d['dir'] == 'depth_nyu' for d in CHANNELS):
-            self.kitti_helper = InferenceHelper(dataset='kitti')
+            self.kitti_helper = InferenceHelper(dataset='kitti', device="cpu")
 
 
     def __call__(self, image):
