@@ -31,9 +31,9 @@ class SevenChannelTrans(object):
         self.counter = 0
 
         if any(d['dir'] == 'depth_kitti' for d in CHANNELS):
-            self.kitti_helper = InferenceHelper(dataset='kitti')
+            self.kitti_helper = InferenceHelper(dataset='kitti', device='cpu')
         if any(d['dir'] == 'depth_nyu' for d in CHANNELS):
-            self.nyu_helper = InferenceHelper(dataset='nyu')
+            self.nyu_helper = InferenceHelper(dataset='nyu', device='cpu')
 
 
     def __call__(self, image):
