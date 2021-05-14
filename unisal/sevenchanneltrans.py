@@ -31,14 +31,16 @@ class SevenChannelTrans(object):
     def __call__(self, image):
         org_image = torch.clone(image)
         print(f"IMAGE SIZE {image.shape}")
+        height = image[1]
+        width = image[2]
         file_path = str(self.file_path)
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
             if os.path.isfile(channel_path):
                 img = Image.open(channel_path)
                 img = transforms.ToTensor()(np.array(img))
-                if img.shape[1] != image.shape[1] or img.shape[2] != image.shape[2]:
-                    img = torch.nn.functional.interpolate(img, size =image.shape)
+                if img.shape[1] != height or img.shape[2] != width:
+                    img = torchvision.transforms.Resize((height, width))(img)
                     save_image(img, 'test.jpg')
 
                 print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
