@@ -30,8 +30,9 @@ class SevenChannelTrans(object):
 
     def __call__(self, image):
         file_path = str(self.file_path)
-        for channel in CHANNELS:
-            print(channel)
+        for chan in CHANNELS:
+            channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
+            print(channel_path)
 
         '''
         rgb_filepath = file_path[:-16] + "RGB_" + file_path[-16:]
