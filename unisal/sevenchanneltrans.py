@@ -20,7 +20,7 @@ from . import utils
 
 from PIL import Image
 
-import test_info
+from test_info import CHANNELS, DATASET_PATH
 
 class SevenChannelTrans(object):
     def __init__(self, file_path, patch_size=7):
@@ -30,7 +30,8 @@ class SevenChannelTrans(object):
 
     def __call__(self, image):
         file_path = str(self.file_path)
-        print(f"FILE PATH: {file_path}")
+        for channel in CHANNELS:
+            print(channel)
 
         '''
         rgb_filepath = file_path[:-16] + "RGB_" + file_path[-16:]
