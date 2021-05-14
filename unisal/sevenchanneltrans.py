@@ -97,6 +97,7 @@ class SevenChannelTrans(object):
         print(img.shape)
         print(img)
         im = Image.fromarray(img, "RGB")
+        im.save("TEST_KITTI.png")
         _, predicted_depth = self.kitti_helper.predict_pil(im)
         return predicted_depth
 
@@ -105,7 +106,6 @@ class SevenChannelTrans(object):
         print(img.shape)
         print(img)
         im = Image.fromarray(img, "RGB")
-        im.save("TEST_NYU.png")
         _, predicted_depth = self.nyu_helper.predict_pil(im)
         return predicted_depth
 
