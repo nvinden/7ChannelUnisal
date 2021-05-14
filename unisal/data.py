@@ -66,8 +66,8 @@ class SALICONDataset(Dataset, utils.KwConfigClass):
             'rgb_std': [0.229, 0.224, 0.225],
         }
         for chan in CHANNELS:
-            self.preproc_cfg['rgb_mean'].append(chan['mean'])
-            self.preproc_cfg['rgb_std'].append(chan['std'])
+            self.preproc_cfg['rgb_mean'].extend(chan['mean'])
+            self.preproc_cfg['rgb_std'].extend(chan['std'])
         if preproc_cfg is not None:
             self.preproc_cfg.update(preproc_cfg)
         self.phase_str = 'val' if phase in ('valid', 'eval') else phase
