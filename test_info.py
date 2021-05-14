@@ -11,8 +11,8 @@ DATASET_PATH = "/content/drive/MyDrive/7Channel/Salicon"
 #  end: the picture format
 # chan: the number of channels the image can produce, either 1 or 3
 CHANNELS = (
-    {"dir": "depth_kitti", "func": "depth_kitti", "end": ".png", "chan": 1},
-    {"dir": "depth_nyu", "func": "depth_nyu", "end": ".png", "chan": 1}
+    {"dir": "depth_kitti", "func": "depth_kitti", "end": "png", "chan": 1},
+    {"dir": "depth_nyu", "func": "depth_nyu", "end": "png", "chan": 1}
 )
 
 #Note: All datasets must be in the format DATASET_PATH/dir_name/(train test and val)
