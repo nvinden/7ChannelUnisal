@@ -20,6 +20,8 @@ from . import utils
 
 from PIL import Image
 
+import test_info
+
 class SevenChannelTrans(object):
     def __init__(self, file_path, patch_size=7):
         self.file_path = file_path
@@ -29,6 +31,8 @@ class SevenChannelTrans(object):
     def __call__(self, image):
         file_path = str(self.file_path)
         print(f"FILE PATH: {file_path}")
+
+        '''
         rgb_filepath = file_path[:-16] + "RGB_" + file_path[-16:]
         dark_filepath = file_path[:-16] + "DARK_" + file_path[-16:]
 
@@ -51,6 +55,9 @@ class SevenChannelTrans(object):
             image = torch.cat((image, dark_layers), 0)
         
         self.counter += 1
+        '''
+
+        exit()
 
         return image
 
