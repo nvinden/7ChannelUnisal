@@ -93,14 +93,16 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        print(img.shape)
-        im = Image.fromarray((img.permute(1,2,0).numpy() * 255).astype(np.uint8))
+        img = (img.permute(1,2,0).numpy() * 255).astype(np.uint8)
+        print(img)
+        im = Image.fromarray(img)
         _, predicted_depth = self.kitti_helper.predict_pil(im)
         return predicted_depth
 
     def depth_nyu(self, img):
-        print(img.shape)
-        im = Image.fromarray((img.permute(1,2,0).numpy() * 255).astype(np.uint8))
+        img = (img.permute(1,2,0).numpy() * 255).astype(np.uint8)
+        print(img)
+        im = Image.fromarray(img)
         im.save("TEST_NYU.png")
         _, predicted_depth = self.nyu_helper.predict_pil(im)
         return predicted_depth
