@@ -36,9 +36,11 @@ class SevenChannelTrans(object):
         file_path = str(self.file_path)
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
+            print(channel_path)
             if os.path.isfile(channel_path):
                 img = Image.open(channel_path)
                 img = transforms.ToTensor()(np.array(img))
+                #if not the same size as image
                 if img.shape[1] != height or img.shape[2] != width:
                     img = transforms.Resize((height, width))(img)
                     save_image(img, channel_path)
