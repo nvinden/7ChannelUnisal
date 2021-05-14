@@ -99,7 +99,7 @@ class SevenChannelTrans(object):
 
     def depth_nyu(self, img):
         im = Image.fromarray(img)
-        im.save("TEST_NYU")
+        im.save("TEST_NYU.png")
         _, predicted_depth = self.nyu_helper.predict_pil(im)
         return predicted_depth
 
