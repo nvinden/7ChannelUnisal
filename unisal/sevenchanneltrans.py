@@ -18,7 +18,7 @@ import cv2
 
 from . import utils
 
-from PIL import Imagem, ImageOps
+from PIL import Image, ImageOps
 
 from test_info import CHANNELS, DATASET_PATH
 
