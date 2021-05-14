@@ -96,6 +96,7 @@ class SevenChannelTrans(object):
             _, predicted_depth = self.kitti_helper.predict_pil(im)
             out = np.array(predicted_depth)
             out = torch.from_numpy(out)
+            print(out.shape)
         return out
 
     def depth_nyu(self, img):
@@ -103,6 +104,8 @@ class SevenChannelTrans(object):
             _, predicted_depth = self.nyu_helper.predict_pil(im)
             out = np.array(predicted_depth)
             out = torch.from_numpy(out)
+            print(out.shape)
+
         return out
 
     
