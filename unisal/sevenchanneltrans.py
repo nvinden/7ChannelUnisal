@@ -15,6 +15,7 @@ import cv2
 import PIL
 import scipy.io
 import cv2
+from matplotlib import cm
 
 from . import utils
 
@@ -92,11 +93,13 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        _, predicted_depth = self.kitti_helper.predict(img.unsqueeze(0).numpy())
+        im = Image.fromarray(np.uint8(cm.gist_earth(img)*255))
+        _, predicted_depth = self.kitti_helper.predict_pil(im)
         return predicted_depth
 
     def depth_nyu(self, img):
-        _, predicted_depth = self.nyu_helper.predict(img.unsqueeze(0).numpy())
+        im = Image.fromarray(np.uint8(cm.gist_earth(img)*255))
+        _, predicted_depth = self.nyu_helper.predict_pil(im)
         return predicted_depth
 
     
