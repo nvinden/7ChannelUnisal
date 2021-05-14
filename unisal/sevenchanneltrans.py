@@ -22,7 +22,7 @@ from PIL import Image, ImageOps
 
 from test_info import CHANNELS, DATASET_PATH
 
-from models.AdaBins.infer import InferenceHelper
+from unisal.models.AdaBins.infer import InferenceHelper
 
 class SevenChannelTrans(object):
     def __init__(self, file_path, patch_size=7):
