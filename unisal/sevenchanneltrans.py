@@ -35,6 +35,8 @@ class SevenChannelTrans(object):
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
             if os.path.isfile(channel_path):
                 img = Image.open(channel_path)
+                if chan['chan'] == 1:
+                    img = img.convert("L")
                 img = transforms.ToTensor()(np.array(img))
                 print(f"{chan['dir']}:{image.shape}")
                 if len(image.size()) == 2:
