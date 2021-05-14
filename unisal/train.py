@@ -1239,7 +1239,9 @@ class Trainer(utils.KwConfigClass):
         }
         chkpnt.update({key: self.__dict__[key] for key in (
             'epoch', 'best_epoch', 'best_val_score', 'all_scalars',)})
-        torch.save(chkpnt, self.train_dir / f'chkpnt_epoch{self.epoch:04d}.pth')
+        save_loc = self.train_dir / f'chkpnt_epoch{self.epoch:04d}.pth'
+        print(f"Saved at {save_loc}")
+        torch.save(chkpnt, save_loc)
 
     def load_checkpoint(self, file):
         """Load model and trainer checkpoint"""
