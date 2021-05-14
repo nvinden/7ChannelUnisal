@@ -18,7 +18,7 @@ import cv2
 
 from . import utils
 
-from PIL import Image
+from PIL import Imagem, ImageOps
 
 from test_info import CHANNELS, DATASET_PATH
 
@@ -35,9 +35,14 @@ class SevenChannelTrans(object):
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
             if os.path.isfile(channel_path):
                 img = Image.open(channel_path)
+
                 if chan['chan'] == 1:
                     img = img.convert("L")
-                img = transforms.ToTensor()(np.array(img))
+                    img = transforms.ToTensor()(np.array(img))
+                    img = img[0,:,:]
+                else:
+                    img = transforms.ToTensor()(np.array(img))
+                
                 print(f"{chan['dir']}:{image.shape}:{chan['chan']}")
                 if len(image.size()) == 2:
                     img = torch.unsqueeze(img, 0)
