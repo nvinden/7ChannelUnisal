@@ -162,12 +162,15 @@ class MobileNetV2(nn.Module):
         if self.pretrained:
             state_dict = torch.load(
                 Path(__file__).resolve().parent / 'weights/mobilenet_v2.pth.tar')
+            #NVINDEN CODE: Changing the pretrained loading of MobileNet to account for additional inputs
             first_weight = state_dict['features.0.0.weight']
             state_dict['features.0.0.weight'] = torch.cat((first_weight[:,0:3,:,:], torch.zeros((self.input_channel, num_input_channels, 3, 3), device="cuda:0")), 1)
+            '''
             print(num_input_channels)
             print(state_dict['features.0.0.weight'].size())
             for param_tensor in state_dict:
                 print(param_tensor, "\t", state_dict[param_tensor].size())
+            '''
             self.load_state_dict(state_dict, strict=False)
         else:
             self._initialize_weights()
