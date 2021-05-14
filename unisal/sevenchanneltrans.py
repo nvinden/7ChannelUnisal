@@ -37,9 +37,9 @@ class SevenChannelTrans(object):
         self.counter = 0
 
         if any(d['dir'] == 'depth_kitti' for d in CHANNELS):
-            self.nyu_helper = nyu_helper
+            self.nyu_helper = InferenceHelper(dataset='nyu')
         if any(d['dir'] == 'depth_nyu' for d in CHANNELS):
-            self.kitti_helper = kitti_helper
+            self.kitti_helper = InferenceHelper(dataset='kitti')
 
 
     def __call__(self, image):
@@ -66,7 +66,6 @@ class SevenChannelTrans(object):
                 new_channel = method(org_image)
                 if new_channel.shape[1] != height or new_channel.shape[2] != width:
                     new_channel = transforms.Resize((height, width))(new_channel)
-                    save(new_channel, "test.jpg")
                 save_image(new_channel, channel_path)
                 image = torch.cat((image, new_channel), 0)
 
@@ -94,8 +93,6 @@ class SevenChannelTrans(object):
     
     def depth_kitti(self, img):
         img = (img.permute(1,2,0).numpy() * 255).astype(np.uint8)
-        print(img.shape)
-        print(img)
         im = Image.fromarray(img, "RGB")
         im.save("TEST_KITTI.jpg")
         _, predicted_depth = self.kitti_helper.predict_pil(im)
@@ -103,8 +100,6 @@ class SevenChannelTrans(object):
 
     def depth_nyu(self, img):
         img = (img.permute(1,2,0).numpy() * 255).astype(np.uint8)
-        print(img.shape)
-        print(img)
         im = Image.fromarray(img, "RGB")
         _, predicted_depth = self.nyu_helper.predict_pil(im)
         return predicted_depth
