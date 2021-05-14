@@ -59,8 +59,6 @@ class SevenChannelTrans(object):
         self.counter += 1
         '''
 
-        exit()
-
         return image
 
     def make_rgb_mean_layer(self, img):
