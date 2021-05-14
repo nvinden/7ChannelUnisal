@@ -97,7 +97,6 @@ class SevenChannelTrans(object):
             out = np.array(predicted_depth)
             out = torch.from_numpy(out)
             out = out.squeeze(0)
-            print(out.shape)
         return out
 
     def depth_nyu(self, img):
