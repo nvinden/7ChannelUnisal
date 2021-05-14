@@ -30,7 +30,6 @@ class SevenChannelTrans(object):
 
     def __call__(self, image):
         org_image = torch.clone(image)
-        print(f"IMAGE SIZE {image.shape}")
         height = image.shape[1]
         width = image.shape[2]
         file_path = str(self.file_path)
@@ -46,8 +45,10 @@ class SevenChannelTrans(object):
                 if img.shape[1] != height or img.shape[2] != width:
                     img = transforms.Resize((height, width))(img)
                     save_image(img, channel_path)
+                    print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
                 image = torch.cat((image, img), 0)
             else:
+                print("method")
                 method = getattr(self, chan['func'])
                 new_channel = method(org_image)
                 save_image(new_channel, channel_path)
