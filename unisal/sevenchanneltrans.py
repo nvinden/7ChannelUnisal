@@ -66,6 +66,7 @@ class SevenChannelTrans(object):
                 new_channel = method(org_image)
                 if new_channel.shape[1] != height or new_channel.shape[2] != width:
                     new_channel = transforms.Resize((height, width))(new_channel)
+                    save_image(new_channel, "test.png")
                 save_image(new_channel, channel_path)
                 image = torch.cat((image, new_channel), 0)
 
