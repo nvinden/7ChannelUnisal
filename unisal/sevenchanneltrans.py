@@ -35,8 +35,12 @@ class SevenChannelTrans(object):
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
             if os.path.isfile(channel_path):
-                img = Image.open(channel_path)          
+                img = Image.open(channel_path)
                 img = transforms.ToTensor()(np.array(img))
+                if img.shape[1] != image.shape[1] or img.shape[2] != image.shape[2]:
+                    img = torch.functional.interpolate(img, size = (image.shape[1], image.shape[2]))
+                    save_image(img, 'test.jpg')
+
                 print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
                 image = torch.cat((image, img), 0)
             else:
