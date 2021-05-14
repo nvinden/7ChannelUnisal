@@ -47,6 +47,7 @@ class SevenChannelTrans(object):
         height = image.shape[1]
         width = image.shape[2]
         file_path = str(self.file_path)
+        self.img_path = file_path.replace("<INSERT_HERE>", "images").replace("<ENDING>", ".jpg")
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
             if os.path.isfile(channel_path):
@@ -61,7 +62,6 @@ class SevenChannelTrans(object):
                 #print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
                 image = torch.cat((image, img), 0)
             else:
-                print("method")
                 method = getattr(self, chan['func'])
                 new_channel = method(org_image)
                 if new_channel.shape[1] != height or new_channel.shape[2] != width:
@@ -92,16 +92,13 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        img = (img.numpy() * 255).astype(np.uint8)
-        im = Image.fromarray(img, "RGB")
-        im.save("TEST_KITTI.jpg")
-        _, predicted_depth = self.kitti_helper.predict_pil(im)
+        with Image.open(self.img_path) as im:
+            _, predicted_depth = self.kitti_helper.predict_pil(im)
         return predicted_depth
 
     def depth_nyu(self, img):
-        img = (img.numpy() * 255).astype(np.uint8)
-        im = Image.fromarray(img, "RGB")
-        _, predicted_depth = self.nyu_helper.predict_pil(im)
+        with Image.open(self.img_path) as im:
+            _, predicted_depth = self.nyu_helper.predict_pil(im)
         return predicted_depth
 
     
