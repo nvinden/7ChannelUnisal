@@ -66,7 +66,6 @@ class SevenChannelTrans(object):
                 new_channel = method(org_image)
                 if new_channel.shape[1] != height or new_channel.shape[2] != width:
                     new_channel = transforms.Resize((height, width))(new_channel)
-                    save_image(new_channel, "test.png")
                 save_image(new_channel, channel_path)
                 image = torch.cat((image, new_channel), 0)
 
@@ -93,8 +92,7 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        print(f"DEPTH_START_KITTI: {self.img_path}")
-        if False and os.path.isfile(self.img_path):
+        if os.path.isfile(self.img_path):
             with Image.open(self.img_path) as im:
                 _, predicted_depth = self.kitti_helper.predict_pil(im)
                 out = np.array(predicted_depth)
@@ -106,7 +104,6 @@ class SevenChannelTrans(object):
             _, out = self.kitti_helper.predict(img)
             out = torch.from_numpy(out)
             out = out.squeeze(0)
-            print(f"kitti {out.shape}")
         return out
 
     def depth_nyu(self, img):
@@ -122,7 +119,6 @@ class SevenChannelTrans(object):
             _, out = self.nyu_helper.predict(img)
             out = torch.from_numpy(out)
             out = out.squeeze(0)
-            print("nyu")
         return out
 
     
