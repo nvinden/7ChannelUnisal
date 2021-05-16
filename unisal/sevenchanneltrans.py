@@ -105,7 +105,7 @@ class SevenChannelTrans(object):
             img = img.unsqueeze(0)
             _, out = self.kitti_helper.predict(img)
             out = torch.from_numpy(out)
-            out = img.squeeze(0)
+            out = out.squeeze(0)
             print(f"kitti {out.shape}")
         return out
 
@@ -121,7 +121,7 @@ class SevenChannelTrans(object):
             img = img.unsqueeze(0)
             _, out = self.nyu_helper.predict(img)
             out = torch.from_numpy(out)
-            out = img.squeeze(0)
+            out = out.squeeze(0)
             print("nyu")
         return out
 
