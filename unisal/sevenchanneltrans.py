@@ -43,6 +43,7 @@ class SevenChannelTrans(object):
 
 
     def __call__(self, image):
+        print("CALL")
         org_image = torch.clone(image)
         height = image.shape[1]
         width = image.shape[2]
@@ -93,8 +94,8 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        print(f"DEPTH_START_NYU: {self.img_path}")
-        if False and os.path.isfile(self.img_path):
+        print(f"DEPTH_START_KITTI: {self.img_path}")
+        if os.path.isfile(self.img_path):
             with Image.open(self.img_path) as im:
                 _, predicted_depth = self.kitti_helper.predict_pil(im)
                 out = np.array(predicted_depth)
@@ -107,8 +108,7 @@ class SevenChannelTrans(object):
         return out
 
     def depth_nyu(self, img):
-        print(f"DEPTH_START_KITTI: {self.img_path}")
-        if False and os.path.isfile(self.img_path):
+        if os.path.isfile(self.img_path):
             with Image.open(self.img_path) as im:
                 _, predicted_depth = self.nyu_helper.predict_pil(im)
                 out = np.array(predicted_depth)
