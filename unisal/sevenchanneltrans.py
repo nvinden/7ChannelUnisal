@@ -104,7 +104,8 @@ class SevenChannelTrans(object):
             img = transforms.Resize((480,640))(img)
             img = img.unsqueeze(0)
             _, out = self.kitti_helper.predict(img)
-            print("kitti")
+            out = torch.from_numpy(out)
+            print(f"kitti {out.shape}")
         return out
 
     def depth_nyu(self, img):
@@ -118,6 +119,7 @@ class SevenChannelTrans(object):
             img = transforms.Resize((480,640))(img)
             img = img.unsqueeze(0)
             _, out = self.nyu_helper.predict(img)
+            out = torch.from_numpy(out)
             print("nyu")
         return out
 
