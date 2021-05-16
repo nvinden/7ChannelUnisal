@@ -93,7 +93,7 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        if os.path.isfile(self.img_path):
+        if False and os.path.isfile(self.img_path):
             with Image.open(self.img_path) as im:
                 _, predicted_depth = self.kitti_helper.predict_pil(im)
                 out = np.array(predicted_depth)
@@ -102,10 +102,11 @@ class SevenChannelTrans(object):
         else:
             img = transforms.Resize((480,640))(img)
             _, out = self.kitti_helper.predict(img)
+            print("kitti")
         return out
 
     def depth_nyu(self, img):
-        if os.path.isfile(self.img_path):
+        if False and os.path.isfile(self.img_path):
             with Image.open(self.img_path) as im:
                 _, predicted_depth = self.nyu_helper.predict_pil(im)
                 out = np.array(predicted_depth)
@@ -114,6 +115,7 @@ class SevenChannelTrans(object):
         else:
             img = transforms.Resize((480,640))(img)
             _, out = self.nyu_helper.predict(img)
+            print("nyu")
         return out
 
     
