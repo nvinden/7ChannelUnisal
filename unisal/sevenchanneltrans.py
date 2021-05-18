@@ -68,7 +68,7 @@ class SevenChannelTrans(object):
                     new_channel = transforms.Resize((height, width))(new_channel)
                 save_image(new_channel, channel_path)
                 image = torch.cat((image, new_channel), 0)
-            print(f"{chan['dir']} {new_channel}")
+            print(f"{chan['dir']} {new_channel.shape}")
 
         return image
 
