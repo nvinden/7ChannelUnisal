@@ -13,7 +13,7 @@ DATASET_PATH = "/content/drive/MyDrive/7Channel/Salicon"
 CHANNELS = (
     {"dir": "rgb", "func": "make_rgb_mean_layer", "end": "jpg", "chan": 3, "mean": [0.095, 0.098, 0.100],
     "std": [0.131, 0.143, 0.151]},
-    {"dir": "dark", "func": "make_dark_layer", "end": "jpg", "chan": 1, "mean": [0.180,],
+    {"dir": "dark", "func": "make_dark_channel", "end": "jpg", "chan": 1, "mean": [0.180,],
     "std": [0.180,]},
     {"dir": "depth_kitti", "func": "depth_kitti", "end": "png", "chan": 1, "mean": [0.9,],
     "std": [0.1,]},
