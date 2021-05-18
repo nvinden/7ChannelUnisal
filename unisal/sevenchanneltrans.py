@@ -105,6 +105,7 @@ class SevenChannelTrans(object):
         _, out = self.nyu_helper.predict(img)
         out = torch.from_numpy(out)
         out = out.squeeze(0)
+        print(out.shape)
 
     
 
