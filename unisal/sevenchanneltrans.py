@@ -92,34 +92,18 @@ class SevenChannelTrans(object):
         return dark.unsqueeze(0)
     
     def depth_kitti(self, img):
-        if os.path.isfile(self.img_path):
-            with Image.open(self.img_path) as im:
-                _, predicted_depth = self.kitti_helper.predict_pil(im)
-                out = np.array(predicted_depth)
-                out = torch.from_numpy(out)
-                out = out.squeeze(0)
-        else:
-            img = transforms.Resize((480,640))(img)
-            img = img.unsqueeze(0)
-            _, out = self.kitti_helper.predict(img)
-            out = torch.from_numpy(out)
-            out = out.squeeze(0)
-        return out
+        img = transforms.Resize((480,640))(img)
+        img = img.unsqueeze(0)
+        _, out = self.kitti_helper.predict(img)
+        out = torch.from_numpy(out)
+        out = out.squeeze(0)
 
     def depth_nyu(self, img):
-        if os.path.isfile(self.img_path):
-            with Image.open(self.img_path) as im:
-                _, predicted_depth = self.nyu_helper.predict_pil(im)
-                out = np.array(predicted_depth)
-                out = torch.from_numpy(out)
-                out = out.squeeze(0)
-        else:
-            img = transforms.Resize((480,640))(img)
-            img = img.unsqueeze(0)
-            _, out = self.nyu_helper.predict(img)
-            out = torch.from_numpy(out)
-            out = out.squeeze(0)
-        return out
+        img = transforms.Resize((480,640))(img)
+        img = img.unsqueeze(0)
+        _, out = self.nyu_helper.predict(img)
+        out = torch.from_numpy(out)
+        out = out.squeeze(0)
 
     
 
