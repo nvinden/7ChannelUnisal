@@ -50,7 +50,7 @@ class SevenChannelTrans(object):
         self.img_path = file_path.replace("<INSERT_HERE>", "images").replace("<ENDING>", "jpg")
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
-            if False and os.path.isfile(channel_path):
+            if os.path.isfile(channel_path):
                 img = Image.open(channel_path)
                 if chan['chan'] == 1:
                     img = img.convert("L")
@@ -68,7 +68,6 @@ class SevenChannelTrans(object):
                     new_channel = transforms.Resize((height, width))(new_channel)
                 save_image(new_channel, channel_path)
                 image = torch.cat((image, new_channel), 0)
-            print(f"{chan['dir']} {new_channel.shape}")
 
         return image
 
