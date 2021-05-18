@@ -98,6 +98,7 @@ class SevenChannelTrans(object):
         out = torch.from_numpy(out)
         out = out.squeeze(0)
         print(out.shape)
+        print(out)
 
     def depth_nyu(self, img):
         img = transforms.Resize((480,640))(img)
