@@ -50,7 +50,7 @@ class SevenChannelTrans(object):
         self.img_path = file_path.replace("<INSERT_HERE>", "images").replace("<ENDING>", "jpg")
         for chan in CHANNELS:
             channel_path = file_path.replace("<INSERT_HERE>", chan['dir']).replace("<ENDING>", chan['end'])
-            if os.path.isfile(channel_path):
+            try:
                 img = Image.open(channel_path)
                 if chan['chan'] == 1:
                     img = img.convert("L")
