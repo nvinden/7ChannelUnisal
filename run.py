@@ -38,7 +38,7 @@ def load_trainer(train_id=None):
 
 def score_model(
         train_id=None,
-        sources=('DHF1K', 'SALICON', 'UCFSports', 'Hollywood'),
+        sources=('SALICON',),
         **kwargs):
     """Compute the scores for a trained model."""
 
