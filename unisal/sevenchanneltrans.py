@@ -61,7 +61,7 @@ class SevenChannelTrans(object):
                     save_image(img, channel_path)
                 #print(f"{chan['dir']}:{img.shape}:{chan['chan']}")
                 image = torch.cat((image, img), 0)
-            else:
+            except:
                 method = getattr(self, chan['func'])
                 new_channel = method(org_image)
                 if new_channel.shape[1] != height or new_channel.shape[2] != width:
