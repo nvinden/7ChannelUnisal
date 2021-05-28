@@ -45,6 +45,8 @@ class BaseModel(nn.Module):
 
     def load_last_chkpnt(self, directory):
         """Load state_dict from the last Trainer checkpoint"""
+        print(directory)
+        print(sorted(list(directory.glob('chkpnt_epoch*.pth'))))
         last_chkpnt = sorted(list(directory.glob('chkpnt_epoch*.pth')))[-1]
         self.load_checkpoint(last_chkpnt)
 
