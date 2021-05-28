@@ -31,7 +31,7 @@ class BaseModel(nn.Module):
 
     def load_best_weights(self, directory):
         value = torch.load(directory / f'weights_best.pth')
-        print(value)
+        print(value.keys())
         self.load_state_dict(value["model_state_dict"])
 
     def load_epoch_checkpoint(self, directory, epoch):
