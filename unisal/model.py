@@ -30,7 +30,9 @@ class BaseModel(nn.Module):
         self.load_state_dict(torch.load(directory / f'weights_{name}.pth'))
 
     def load_best_weights(self, directory):
-        self.load_state_dict(torch.load(directory / f'weights_best.pth'))
+        value = torch.load(directory / f'weights_best.pth')
+        print(value)
+        self.load_state_dict(value["model_state_dict"])
 
     def load_epoch_checkpoint(self, directory, epoch):
         """Load state_dict from a Trainer checkpoint at a specific epoch"""
